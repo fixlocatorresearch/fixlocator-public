@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)https://learning-zone.github.io/website-templates/plain/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <!-- Web Page Design by James Koster - http://www.jameskoster.co.uk -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--Load the Google chart-->
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+
+    <title>Fault Localization to Detect Co-Change Fixing Location</title>
+    <link href="./1.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body data-new-gr-c-s-check-loaded="14.1027.0" data-gr-ext-installed="">
+    <a name="top" id="top"></a>
+    <center>
+      <div id="menu">
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#top">home</a>
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#ABSTRACT"
+          >introduction</a
+        >
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#RQ1">RQ1</a>
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#RQ2">RQ2</a>
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#RQ3">RQ3</a>
+        <a href="https://fixlocatorresearch.github.io/fixlocator-public/#RQ4">RQ4</a>
+      </div>
+
+      <div id="header">
+        <h1>FixLocator</h1>
+        <h2>Fault Localization to Detect Co-Change Fixing Locations</h2>
+      </div>
+
+      <div id="content">
+        <p class="introduction">
+          We present FixLocator, a novel DL-based FL approach that aims to
+          locate co-change fixing locations within one or multiple methods. Our
+          empirical results show that FixLocator outperforms the studied
+          DL-based FL baselines, advancing FL in dealing with multiple CC fixing
+          statements.
+        </p>
+
+        <div id="mainbar">
+          <h1><a name="ABSTRACT" id="ABSTRACT"></a>ABSTRACT</h1>
+
+          <p>
+            We present FixLocator, a DL-based fault localization (FL) approach
+            supporting the detection of faulty statements in one or multiple
+            methods that need to be
+            <i> modified accordingly in the same fix. </i>Let us call them
+            co-change (CC) fixing locations for a fault. We treat this FL
+            problem as a dual learning task with two models. First, the
+            method-level FL model, MethFL, learns the methods to be fixed
+            together. Second, the statement-level FL model, StmtFL, learns the
+            statements to be co-fixed. Correct learning in a model can benefit
+            the other and vice versa. Exploring this duality provides useful
+            constraints for FixLocator to learn derive CC fixing statements.
+            Thus, we simultaneously train them with soft-sharing the models’
+            parameters via cross-stitch units to exploit this duality. In a
+            cross-stitch unit, the sharing of representations between MethFL and
+            StmtFL is modeled by the learning a linear combination of the input
+            features from two models. The cross-stitch units enable the
+            propagation of the impact of method-level FL on statement-level FL
+            and vice versa. In addition to the new dual learning model solution,
+            we also explore a novel feature, which is the co-change information
+            among statements. We use Graph-based Convolution Network to
+            integrate different types of program dependencies among the
+            statements. Our empirical evaluation on real-world datasets shows
+            that FixLocator relatively improves over the state-of-the-art
+            statement-level FL baselines by locating more CC fixing statements
+            from 26.5% to 155.6%, and reduces the statements to be examined by
+            22%–30%.
+          </p>
+
+          <h1><a name="RQ" id="RQ"></a>Research Questions</h1>
+          <br />
+
+          <h3>
+            <a name="RQ1" id="RQ1"></a>RQ1. Comparison Results with DL-based FL
+            models
+          </h3>
+          <h4>
+            Hit-N@Set measures the number of times that the predicted set from
+            FixLocator contains at least N faulty statements. The size of a
+            predicted set can vary.
+          </h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB1);
+
+            function drawTB1() {
+              var TB1_data = google.visualization.arrayToDataTable([
+                ["Metrics", "CNN-FL", "DeepFL", "DeepRL4FL", "FixLocator"],
+                ["Hit1@Set", 332, 331, 352, 387],
+                ["Hit2@Set", 125, 119, 132, 167],
+                ["Hit3@Set", 57, 56, 64, 82],
+                ["Hit4@Set", 23, 18, 28, 46],
+                ["Hit5@Set", 5, 4, 6, 9],
+                ["Hit5+@Set", 1, 2, 3, 3],
+              ]);
+
+              var options = {};
+
+              var TB1_chart = new google.charts.Bar(
+                document.getElementById("TB1")
+              );
+
+              TB1_chart.draw(TB1_data, options);
+            }
+          </script>
+          <div
+            id="TB1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+          <br />
+
+          <h4>
+            EXAM Score is the percentage of statements that one must examine
+            before finding the first faulty statement in the predicted set. The
+            lower EXAM score indicates less effort required in FL.
+          </h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB2_data = google.visualization.arrayToDataTable([
+                ["Projects", "EXAM Score"],
+                ["CNN-FL", 0.09],
+                ["DeepFL", 0.1],
+                ["DeepRL4FL", 0.09],
+                ["FixLocator", 0.07],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB1_2")
+              );
+              TB_chart.draw(TB2_data, options);
+            }
+          </script>
+          <div
+            id="TB1_2"
+            style="width: 700px; height: 500px"
+            class="center"
+          ></div>
+
+          <h4>
+            Hit-N@Top-K is the number of times that the list of the top-K
+            statements contains at least N faulty statements.
+          </h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB3);
+
+            function drawTB3() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Metrics", "CNN-FL", "DeepFL", "DeepRL4FL", "FixLocator"],
+                ["Hit1@TOP5", 533, 525, 586, 633],
+                ["Hit2@TOP5", 311, 298, 339, 420],
+                ["Hit3@TOP5", 133, 131, 159, 195],
+                ["Hit4@TOP5", 33, 35, 32, 46],
+                ["Hit5@TOP5", 4, 6, 9, 11],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB3_1")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB3_1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB3);
+
+            function drawTB3() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Metrics", "CNN-FL", "DeepFL", "DeepRL4FL", "FixLocator"],
+                ["Hit1@TOP10", 578, 563, 623, 690],
+                ["Hit2@TOP10", 386, 364, 407, 470],
+                ["Hit3@TOP10", 166, 156, 186, 217],
+                ["Hit4@TOP10", 42, 42, 48, 51],
+                ["Hit5@TOP10", 10, 10, 13, 13],
+                ["Hit5+@TOP10", 81, 83, 92, 94],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB3_2")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB3_2"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+          <br />
+
+          <h3>
+            <a name="RQ2" id="RQ2"></a> RQ2. Impact Analysis Results of Dual
+            Learning.
+          </h3>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Metrics", "Stmt-only Model", "Cascading Model", "FixLocator"],
+                ["Hit1@Set", 304, 343, 387],
+                ["Hit2@Set", 111, 125, 167],
+                ["Hit3@Set", 51, 61, 82],
+                ["Hit4@Set", 11, 19, 46],
+                ["Hit5@Set", 3, 3, 9],
+                ["Hit5+@Set", 2, 3, 3],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB4_1")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB4_1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB2_data = google.visualization.arrayToDataTable([
+                ["Projects", "EXAM Score"],
+                ["Stmt-only Model", 0.14],
+                ["Cascading Model", 0.12],
+                ["FixLocator", 0.07],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB4_2")
+              );
+              TB_chart.draw(TB2_data, options);
+            }
+          </script>
+          <div
+            id="TB4_2"
+            style="width: 700px; height: 500px"
+            class="center"
+          ></div>
+
+          <br />
+
+          <h3>
+            <a name="RQ3" id="RQ3"></a> RQ3: Sensitivity Analysis of Method- and
+            Statement-Level Features.
+          </h3>
+
+          <h4>ML: Method-level;</h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                [
+                  "Metrics",
+                  "w/o Method Content",
+                  "w/o Method Structure",
+                  "w/o Similar Buggy Method",
+                  "w/o ML Co-change Relat",
+                  "FixLocator",
+                ],
+                ["Hit1@Set", 366, 357, 361, 355, 387],
+                ["Hit2@Set", 158, 155, 157, 152, 167],
+                ["Hit3@Set", 78, 80, 79, 77, 82],
+                ["Hit4@Set", 39, 40, 44, 40, 46],
+                ["Hit5@Set", 9, 8, 9, 8, 9],
+                ["Hit5+@Set", 3, 3, 3, 3, 3],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB5_1")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB5_1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB2_data = google.visualization.arrayToDataTable([
+                ["Projects", "EXAM Score"],
+                ["w/o Method Content", 0.08],
+                ["w/o Method Structure", 0.08],
+                ["w/o Similar Buggy Method", 0.08],
+                ["w/o ML Co-change Relat", 0.09],
+                ["FixLocator", 0.07],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB5_2")
+              );
+              TB_chart.draw(TB2_data, options);
+            }
+          </script>
+          <div
+            id="TB5_2"
+            style="width: 700px; height: 500px"
+            class="center"
+          ></div>
+
+          <h4>SL: Statement-level.</h4>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                [
+                  "Metrics",
+                  "w/o Code Coverage",
+                  "w/o AST Subtree",
+                  "w/o Variables",
+                  "w/o SL Co-change Relat",
+                  "FixLocator",
+                ],
+                ["Hit1@Set", 348, 354, 373, 351, 387],
+                ["Hit2@Set", 151, 153, 162, 150, 167],
+                ["Hit3@Set", 75, 77, 78, 76, 82],
+                ["Hit4@Set", 38, 41, 42, 39, 46],
+                ["Hit5@Set", 7, 8, 9, 7, 9],
+                ["Hit5+@Set", 2, 3, 3, 2, 3],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB5_3")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB5_3"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB2_data = google.visualization.arrayToDataTable([
+                ["Projects", "EXAM Score"],
+                ["w/o Code Coverage", 0.09],
+                ["w/o AST Subtree", 0.09],
+                ["w/o Variables", 0.08],
+                ["w/o SL Co-change Relat", 0.11],
+                ["FixLocator", 0.07],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB5_4")
+              );
+              TB_chart.draw(TB2_data, options);
+            }
+          </script>
+          <div
+            id="TB5_4"
+            style="width: 700px; height: 500px"
+            class="center"
+          ></div>
+
+          <h4>Sensitivity Analysis of Depth of Traces</h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Metrics", "5", "10", "15"],
+                ["Hit1@Set", 371, 387, 368],
+                ["Hit2@Set", 162, 167, 158],
+                ["Hit3@Set", 74, 82, 71],
+                ["Hit4@Set", 42, 46, 39],
+                ["Hit5@Set", 8, 9, 7],
+                ["Hit5+@Set", 3, 3, 3],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB6_1")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB6_1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB2_data = google.visualization.arrayToDataTable([
+                ["Depth", "EXAM Score"],
+                ["5", 0.09],
+                ["10", 0.07],
+                ["15", 0.1],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB6_2")
+              );
+              TB_chart.draw(TB2_data, options);
+            }
+          </script>
+          <div
+            id="TB6_2"
+            style="width: 700px; height: 500px"
+            class="center"
+          ></div>
+
+          <h3>
+            <a name="RQ4" id="RQ4"></a> RQ4. BugsInPy (Python Projects) versus
+            Defects4J (Java Projects).
+          </h3>
+
+          <h4>Faulty statements located in Dataset with setting</h4>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["bar"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Setting Metrics", "BugsInPy", "Defects4J"],
+                ["Hit1@Set", 193, 387],
+                ["Hit2@Set", 72, 167],
+                ["Hit3@Set", 45, 82],
+                ["Hit4@Set", 15, 46],
+                ["Hit5@Set", 3, 9],
+                ["Hit5+@Set", 0, 3],
+              ]);
+
+              var options = {};
+
+              var TB_chart = new google.charts.Bar(
+                document.getElementById("TB7_1")
+              );
+
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB7_1"
+            style="width: 800px; height: 500px"
+            class="center"
+          ></div>
+
+          <h3>P% = Located Bugs/Total Bugs in Datasets, result in %</h3>
+          <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawTB);
+
+            function drawTB() {
+              var TB_data = google.visualization.arrayToDataTable([
+                ["Setting Metrics", "BugsInPy", "Defects4J"],
+                ["Hit1@Set", 43.8, 46.3],
+                ["Hit2@Set", 16.3, 20],
+                ["Hit3@Set", 10.2, 9.8],
+                ["Hit4@Set", 3.4, 5.5],
+                ["Hit5@Set", 0.7, 1.1],
+                ["Hit5+@Set", 0, 0.4],
+              ]);
+
+              var options = {
+                pointSize: 10,
+                legend: { position: "top" },
+              };
+
+              var TB_chart = new google.visualization.LineChart(
+                document.getElementById("TB7_2")
+              );
+              TB_chart.draw(TB_data, options);
+            }
+          </script>
+          <div
+            id="TB7_2"
+            style="width: 800px; height: 700px"
+            class="center"
+          ></div>
+        </div>
+      </div>
+      <div id="footer">
+        Thank you For visiting.<br />
+        Page originally designed by
+        <a href="http://www.sixshootermedia.com/">6ix Shooter Media</a>
+      </div>
+    </center>
+  </body>
+</html>
